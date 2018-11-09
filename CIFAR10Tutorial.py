@@ -6,6 +6,8 @@ Created on Wed Nov  7 15:36:09 2018
 """
 
 import keras
+import matplotlib.pyplot as plt 
+import numpy as np
 
 from keras.models import Sequential
 from keras.models import load_model
@@ -15,7 +17,7 @@ from keras.layers.convolutional import MaxPooling2D
 from keras.layers import Flatten
 from keras.utils import to_categorical
 from keras.datasets import cifar10 
-import matplotlib.pyplot as plt 
+
 
 (train_images, train_classes), (x_test, y_test) = cifar10.load_data()
 
@@ -40,18 +42,22 @@ def create_model():
     
     model.compile(optimizer = 'adam', loss = 'categorical_crossentropy')
     
-    model.fit(train_images, train_classes, epochs = 2)
+    model.fit(train_images, train_classes, epochs = 10)
     
     model.save('cifar10test.h5')
     
     return(model)
     
-    
 finished_model = load_model('cifar10test.h5')
 
-plt.imshow(x_test[0])
-imtype = finished_model.predict(x_test)
+#Predict first image in test set
+image = x_test[1]
+plt.imshow(image)
+image = np.expand_dims(image, axis = 0)
+print(image.shape)
+imtype = finished_model.predict(image)
 
 print(imtype)
 
-scores = model.evaluate(x_test, y_test)
+scores = finished_model.evaluate(x_test, y_test)
+

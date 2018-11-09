@@ -42,12 +42,14 @@ def create_model():
     
     model.compile(optimizer = 'adam', loss = 'categorical_crossentropy')
     
-    model.fit(train_images, train_classes, epochs = 10)
+    model.fit(train_images, train_classes, epochs = 25)
     
     model.save('cifar10test.h5')
     
     return(model)
-    
+
+create_model();
+
 finished_model = load_model('cifar10test.h5')
 
 #Predict first image in test set
